@@ -31,10 +31,11 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   }
 
   void _onNextTap() {
-    Navigator.of(context).push(
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => const InterestScreen(),
       ),
+      (route) => false,
     );
   }
 
@@ -103,7 +104,8 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
           height: 300,
           child: CupertinoDatePicker(
             maximumDate: initialDate.subtract(const Duration(days: 365 * 18)),
-            initialDateTime: initialDate.subtract(const Duration(days: 365 * 25)),
+            initialDateTime:
+                initialDate.subtract(const Duration(days: 365 * 25)),
             mode: CupertinoDatePickerMode.date,
             onDateTimeChanged: _setTextFieldDate,
           ),

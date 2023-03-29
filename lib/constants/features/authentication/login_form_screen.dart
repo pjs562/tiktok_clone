@@ -17,14 +17,15 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
 
   Map<String, String> formData = {};
 
-  void _onSubmitTap(){
-    if(_formKey.currentState != null) {
-      if(_formKey.currentState!.validate()){
+  void _onSubmitTap() {
+    if (_formKey.currentState != null) {
+      if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        Navigator.of(context).push(
+        Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => const InterestScreen(),
           ),
+          (route) => false,
         );
       }
     }
@@ -50,30 +51,28 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                   hintText: 'Email',
                 ),
                 validator: (value) {
-                  if(value != null && value.isEmpty) {
+                  if (value != null && value.isEmpty) {
                     return "Please write your email";
                   }
                   return null;
                 },
-                onSaved: (newValue){
-                  if(newValue != null){
+                onSaved: (newValue) {
+                  if (newValue != null) {
                     formData['email'] = newValue;
                   }
                 },
               ),
               Gaps.v16,
               TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Password'
-                ),
+                decoration: const InputDecoration(hintText: 'Password'),
                 validator: (value) {
-                  if(value != null && value.isEmpty) {
+                  if (value != null && value.isEmpty) {
                     return "Please write your password";
                   }
                   return null;
                 },
-                onSaved: (newValue){
-                  if(newValue != null){
+                onSaved: (newValue) {
+                  if (newValue != null) {
                     formData['password'] = newValue;
                   }
                 },
