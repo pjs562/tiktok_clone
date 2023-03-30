@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/features/main_navigation/widgets/nav_tab.dart';
+import 'package:tiktok_clone/constants/features/main_navigation/widgets/post_video_button.dart';
 import 'package:tiktok_clone/constants/features/main_navigation/widgets/stf_screen.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
@@ -15,10 +16,36 @@ class MainNavigationScreen extends StatefulWidget {
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
+  bool _isHover = false;
 
   void _onTap(int index) {
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+  void _onPostVideoButtonTap() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => Scaffold(
+        appBar: AppBar(
+          title: const Text('Record video'),
+        ),
+      ),
+      fullscreenDialog: true,
+    ));
+  }
+
+  void _onPostVideoButtonLongPressDown() {
+    print("d");
+    setState(() {
+      _isHover = true;
+    });
+  }
+
+  void _onPostVideoButtonLongPressUp() {
+    print("u");
+    setState(() {
+      _isHover = false;
     });
   }
 
@@ -51,6 +78,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           padding: const EdgeInsets.all(Sizes.size12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               NavTab(
                 text: "Home",
@@ -66,6 +94,16 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 selectedIcon: FontAwesomeIcons.solidCompass,
                 onTap: () => _onTap(1),
               ),
+              Gaps.h24,
+              GestureDetector(
+                onTap: _onPostVideoButtonTap,
+                onLongPress: _onPostVideoButtonLongPressDown,
+                onLongPressUp: _onPostVideoButtonLongPressUp,
+                child: PostVideoButton(
+                  isHover: _isHover,
+                ),
+              ),
+              Gaps.h24,
               NavTab(
                 text: "Inbox",
                 isSelected: _selectedIndex == 3,
