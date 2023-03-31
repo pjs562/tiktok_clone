@@ -37,14 +37,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   void _onPostVideoButtonLongPressDown() {
-    print("d");
     setState(() {
       _isHover = true;
     });
   }
 
   void _onPostVideoButtonLongPressUp() {
-    print("u");
     setState(() {
       _isHover = false;
     });
