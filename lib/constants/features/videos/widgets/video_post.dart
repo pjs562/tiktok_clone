@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/features/videos/widgets/ExpandableText.dart';
 import 'package:tiktok_clone/constants/features/videos/widgets/video_button.dart';
+import 'package:tiktok_clone/constants/features/videos/widgets/video_comments.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -71,7 +72,9 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
-    if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
+    if (info.visibleFraction == 1 &&
+        !_isPaused &&
+        !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
     }
   }
@@ -87,6 +90,19 @@ class _VideoPostState extends State<VideoPost>
     setState(() {
       _isPaused = !_isPaused;
     });
+  }
+
+  void _onCommentsTap(BuildContext context) async{
+    if(_videoPlayerController.value.isPlaying){
+      _onTogglePause();
+    }
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => VideoComments(),
+    );
+    _onTogglePause();
   }
 
   @override
@@ -168,20 +184,31 @@ class _VideoPostState extends State<VideoPost>
             bottom: 20,
             right: 12,
             child: Column(
-              children: const [
-                CircleAvatar(
+              children: [
+                const CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.black87,
                   foregroundColor: Colors.white,
+                  foregroundImage: NetworkImage(
+                      "https://yt3.ggpht.com/mnzLrvJvPhpqDu3q7bJmEfh4dbIhmimi0ZHU5yxK6GuBf6bkgSqajNEqSvHuoSkX0fmVNhwY=s88-c-k-c0x00ffffff-no-rj-mo"),
                   child: Text("준서"),
-                  foregroundImage: NetworkImage("https://yt3.ggpht.com/mnzLrvJvPhpqDu3q7bJmEfh4dbIhmimi0ZHU5yxK6GuBf6bkgSqajNEqSvHuoSkX0fmVNhwY=s88-c-k-c0x00ffffff-no-rj-mo"),
                 ),
                 Gaps.v20,
-                VideoButton(icon: FontAwesomeIcons.solidHeart, text: "2.9M"),
+                const VideoButton(
+                    icon: FontAwesomeIcons.solidHeart, text: "2.9M"),
                 Gaps.v20,
-                VideoButton(icon: FontAwesomeIcons.solidComment, text: "33.0K"),
+                GestureDetector(
+                  onTap: () => _onCommentsTap(context),
+                  child: const VideoButton(
+                    icon: FontAwesomeIcons.solidComment,
+                    text: "33.0K",
+                  ),
+                ),
                 Gaps.v20,
-                VideoButton(icon: FontAwesomeIcons.share, text: "Share"),
+                const VideoButton(
+                  icon: FontAwesomeIcons.share,
+                  text: "Share",
+                ),
               ],
             ),
           ),
