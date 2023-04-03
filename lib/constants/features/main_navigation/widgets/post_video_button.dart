@@ -8,9 +8,11 @@ class PostVideoButton extends StatelessWidget {
   const PostVideoButton({
     Key? key,
     required this.isHover,
+    required this.inverted,
   }) : super(key: key);
 
   final bool isHover;
+  final bool inverted;
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +60,13 @@ class PostVideoButton extends StatelessWidget {
               horizontal: Sizes.size11,
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: inverted ? Colors.black : Colors.white,
               borderRadius: BorderRadius.circular(9),
             ),
-            child: const Center(
+            child: Center(
               child: FaIcon(
                 FontAwesomeIcons.plus,
-                color: Colors.black,
+                color: inverted ? Colors.white : Colors.black,
                 size: 19.5,
               ),
             ),
