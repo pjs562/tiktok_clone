@@ -182,7 +182,7 @@ class _VideoCommentsState extends State<VideoComments> {
                                             FontAwesomeIcons.circleArrowUp,
                                             color: Theme.of(context).primaryColor,
                                           ),
-                                        )
+                                        ),
                                     ],
                                   ),
                                 ),
