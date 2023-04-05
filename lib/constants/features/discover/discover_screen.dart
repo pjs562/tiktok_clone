@@ -46,12 +46,10 @@ class _DiscoverScreenState extends State<DiscoverScreen>
     super.initState();
   }
 
-  void _onSearchChanged(String value) {
-    print("Searching form $value");
-  }
-
-  void _onSearchSubmitted(String value) {
-    print("Submitted $value");
+  void _onSearchSubmitted() {
+    if(_searchWord != ""){
+      print("Submitted $_searchWord");
+    }
   }
 
   @override
@@ -77,7 +75,9 @@ class _DiscoverScreenState extends State<DiscoverScreen>
         appBar: AppBar(
           elevation: 1,
           title: TextField(
+            textInputAction: TextInputAction.search,
             controller: _textEditingController,
+            onEditingComplete: _onSearchSubmitted,
             decoration: InputDecoration(
               hintText: "Search",
               border: OutlineInputBorder(
@@ -174,7 +174,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                   const Text(
                     "This is a very long caption for my tiktok that im upload just now currently.",
                     style: TextStyle(
-                      fontSize: Sizes.size16 + Sizes.size2,
+                      fontSize: Sizes.size18,
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 2,

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/features/discover/discover_screen.dart';
+import 'package:tiktok_clone/constants/features/inbox/inbox_screen.dart';
 import 'package:tiktok_clone/constants/features/main_navigation/widgets/nav_tab.dart';
 import 'package:tiktok_clone/constants/features/main_navigation/widgets/post_video_button.dart';
 import 'package:tiktok_clone/constants/features/main_navigation/widgets/stf_screen.dart';
@@ -66,7 +67,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 3,
-            child: StfScreen(),
+            child: InboxScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 4,
