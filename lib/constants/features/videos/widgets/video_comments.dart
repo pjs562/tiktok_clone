@@ -15,6 +15,14 @@ class _VideoCommentsState extends State<VideoComments> {
   bool _isWriting = false;
 
   final ScrollController _scrollController = ScrollController();
+  final TextEditingController _textEditingController = TextEditingController();
+  bool _isButtonEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _textEditingController.addListener(_onTextChanged);
+  }
 
   void _onClosedPressed() {
     Navigator.of(context).pop();
@@ -30,6 +38,26 @@ class _VideoCommentsState extends State<VideoComments> {
   void _onStartWriting() {
     setState(() {
       _isWriting = true;
+    });
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onTextChanged() {
+    setState(() {
+      _isButtonEnabled = _textEditingController.text.isNotEmpty;
+    });
+  }
+
+  void _onSendMessage(){
+    setState(() {
+      String message = _textEditingController.text;
+      _textEditingController.clear();
     });
   }
 
@@ -112,7 +140,8 @@ class _VideoCommentsState extends State<VideoComments> {
                       ),
                     ],
                   ),
-                  separatorBuilder: (BuildContext context, int index) => Gaps.v20,
+                  separatorBuilder: (BuildContext context, int index) =>
+                      Gaps.v20,
                 ),
               ),
               Positioned(
@@ -138,6 +167,7 @@ class _VideoCommentsState extends State<VideoComments> {
                           child: SizedBox(
                             height: Sizes.size44,
                             child: TextField(
+                              controller: _textEditingController,
                               onTap: _onStartWriting,
                               expands: true,
                               minLines: null,
@@ -156,7 +186,8 @@ class _VideoCommentsState extends State<VideoComments> {
                                   horizontal: Sizes.size12,
                                 ),
                                 suffixIcon: Padding(
-                                  padding: const EdgeInsets.only(right: Sizes.size14),
+                                  padding: const EdgeInsets.only(
+                                      right: Sizes.size14),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -175,12 +206,13 @@ class _VideoCommentsState extends State<VideoComments> {
                                         color: Colors.grey.shade900,
                                       ),
                                       Gaps.h14,
-                                      if(_isWriting)
+                                      if (_isButtonEnabled)
                                         GestureDetector(
-                                          onTap: _stopWriting,
+                                          onTap: _onSendMessage,
                                           child: FaIcon(
                                             FontAwesomeIcons.circleArrowUp,
-                                            color: Theme.of(context).primaryColor,
+                                            color:
+                                                Theme.of(context).primaryColor,
                                           ),
                                         ),
                                     ],
