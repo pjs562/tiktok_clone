@@ -5,7 +5,7 @@ import 'package:tiktok_clone/constants/features/discover/discover_screen.dart';
 import 'package:tiktok_clone/constants/features/inbox/inbox_screen.dart';
 import 'package:tiktok_clone/constants/features/main_navigation/widgets/nav_tab.dart';
 import 'package:tiktok_clone/constants/features/main_navigation/widgets/post_video_button.dart';
-import 'package:tiktok_clone/constants/features/main_navigation/widgets/stf_screen.dart';
+import 'package:tiktok_clone/constants/features/users/user_progfile_screen.dart';
 import 'package:tiktok_clone/constants/features/videos/video_timeline_screen.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
@@ -18,7 +18,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 4;
   bool _isHover = false;
 
   void _onTap(int index) {
@@ -71,7 +71,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: StfScreen(),
+            child: UserProfileScreen(),
           ),
         ],
       ),
