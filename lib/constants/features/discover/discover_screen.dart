@@ -78,42 +78,48 @@ class _DiscoverScreenState extends State<DiscoverScreen>
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 1,
-          title: TextField(
-            textInputAction: TextInputAction.search,
-            controller: _textEditingController,
-            onEditingComplete: _onSearchSubmitted,
-            decoration: InputDecoration(
-              hintText: "Search",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(
-                  Sizes.size6,
+          title: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: Breakpoints.sm,
+            ),
+            child: TextField(
+              textInputAction: TextInputAction.search,
+              controller: _textEditingController,
+              onEditingComplete: _onSearchSubmitted,
+              decoration: InputDecoration(
+                hintText: "Search",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                    Sizes.size6,
+                  ),
+                  borderSide: BorderSide.none,
                 ),
-                borderSide: BorderSide.none,
-              ),
-              fillColor: Colors.grey.shade200,
-              filled: true,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: Sizes.size8,
-              ),
-              prefixIcon: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Gaps.h14,
-                  FaIcon(FontAwesomeIcons.magnifyingGlass, color: Colors.black),
-                ],
-              ),
-              suffixIcon: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (_searchWord.isNotEmpty)
-                    GestureDetector(
-                      onTap: _onClearTop,
-                      child: FaIcon(
-                        FontAwesomeIcons.solidCircleXmark,
-                        color: Colors.grey.shade500,
+                fillColor: Colors.grey.shade200,
+                filled: true,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: Sizes.size8,
+                ),
+                prefixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Gaps.h14,
+                    FaIcon(FontAwesomeIcons.magnifyingGlass,
+                        color: Colors.black),
+                  ],
+                ),
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (_searchWord.isNotEmpty)
+                      GestureDetector(
+                        onTap: _onClearTop,
+                        child: FaIcon(
+                          FontAwesomeIcons.solidCircleXmark,
+                          color: Colors.grey.shade500,
+                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
