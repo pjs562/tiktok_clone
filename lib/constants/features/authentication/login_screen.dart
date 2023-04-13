@@ -6,6 +6,7 @@ import 'package:tiktok_clone/constants/features/authentication/widgets/auth_butt
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
+import '../utils.dart';
 import 'username_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -37,14 +38,18 @@ class LoginScreen extends StatelessWidget {
               const Text(
                 "Log in to TikTok",
                 style: TextStyle(
-                    fontSize: Sizes.size24, fontWeight: FontWeight.w700),
+                  fontSize: Sizes.size24,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               Gaps.v20,
-              const Text(
+              Text(
                 "Manage your account, check notifications, comment on videos, and more.",
                 style: TextStyle(
                   fontSize: Sizes.size16,
-                  color: Colors.black45,
+                  color: isDarkMode(context)
+                      ? Colors.grey.shade300
+                      : Colors.black45,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -62,11 +67,13 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade50,
-        elevation: 2,
+      bottomNavigationBar: Container(
+        color: isDarkMode(context) ? null : Colors.grey.shade50,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: Sizes.size32),
+          padding: const EdgeInsets.only(
+            top: Sizes.size32,
+            bottom: Sizes.size64,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

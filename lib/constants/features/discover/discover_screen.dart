@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/breakpoints.dart';
+import 'package:tiktok_clone/constants/features/utils.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
@@ -94,17 +95,16 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                   ),
                   borderSide: BorderSide.none,
                 ),
-                fillColor: Colors.grey.shade200,
                 filled: true,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: Sizes.size8,
                 ),
                 prefixIcon: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
+                  children: [
                     Gaps.h14,
                     FaIcon(FontAwesomeIcons.magnifyingGlass,
-                        color: Colors.black),
+                        color: isDarkMode(context) ? Colors.white : Colors.black),
                   ],
                 ),
                 suffixIcon: Row(
@@ -133,13 +133,11 @@ class _DiscoverScreenState extends State<DiscoverScreen>
             splashFactory: NoSplash.splashFactory,
             padding: const EdgeInsets.symmetric(horizontal: Sizes.size16),
             isScrollable: true,
-            unselectedLabelColor: Colors.grey.shade500,
-            labelColor: Colors.black,
             labelStyle: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: Sizes.size16,
             ),
-            indicatorColor: Colors.black,
+            indicatorColor: Theme.of(context).tabBarTheme.indicatorColor,
             tabs: [
               for (var tab in tabs)
                 Tab(
@@ -182,21 +180,22 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                       ),
                     ),
                     Gaps.v10,
-                    Text(
-                      "${constraints.maxWidth} This is a very long caption for my tiktok that im upload just now currently.",
-                      style: const TextStyle(
+                    const Text(
+                      "This is a very long caption for my tiktok that im upload just now currently.",
+                      style: TextStyle(
                         fontSize: Sizes.size18,
                         fontWeight: FontWeight.bold,
+                        height: 1
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Gaps.v8,
-                    if (constraints.maxWidth < 200 ||
+                    if (constraints.maxWidth < 220 ||
                         constraints.maxWidth > 250)
                       DefaultTextStyle(
                         style: TextStyle(
-                          color: Colors.grey.shade600,
+                          color: isDarkMode(context) ? Colors.grey.shade300: Colors.grey.shade600,
                           fontWeight: FontWeight.w600,
                         ),
                         child: Row(

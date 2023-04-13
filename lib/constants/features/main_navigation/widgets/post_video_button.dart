@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../sizes.dart';
+import '../../utils.dart';
 
 class PostVideoButton extends StatelessWidget {
   const PostVideoButton({
@@ -16,6 +17,8 @@ class PostVideoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
+
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 200),
       opacity: isHover ? 0.5 : 1,
@@ -60,13 +63,13 @@ class PostVideoButton extends StatelessWidget {
               horizontal: Sizes.size11,
             ),
             decoration: BoxDecoration(
-              color: inverted ? Colors.black : Colors.white,
+              color: inverted || isDark ? Colors.black : Colors.white,
               borderRadius: BorderRadius.circular(9),
             ),
             child: Center(
               child: FaIcon(
                 FontAwesomeIcons.plus,
-                color: inverted ? Colors.white : Colors.black,
+                color: inverted || isDark ? Colors.white : Colors.black,
                 size: 19.5,
               ),
             ),

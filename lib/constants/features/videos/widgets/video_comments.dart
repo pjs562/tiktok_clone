@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
+import '../../utils.dart';
+
 class VideoComments extends StatefulWidget {
   const VideoComments({Key? key}) : super(key: key);
 
@@ -63,6 +65,7 @@ class _VideoCommentsState extends State<VideoComments> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     final size = MediaQuery.of(context).size;
     return Container(
       height: size.height * 0.7,
@@ -71,9 +74,9 @@ class _VideoCommentsState extends State<VideoComments> {
         borderRadius: BorderRadius.circular(Sizes.size14),
       ),
       child: Scaffold(
-        backgroundColor: Colors.grey.shade50,
+        backgroundColor: isDark ? null : Colors.grey.shade50,
         appBar: AppBar(
-          backgroundColor: Colors.grey.shade50,
+          backgroundColor: isDark ? null : Colors.grey.shade50,
           automaticallyImplyLeading: false,
           title: const Text("22796 comments"),
           actions: [
@@ -100,9 +103,10 @@ class _VideoCommentsState extends State<VideoComments> {
                   itemBuilder: (context, index) => Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 18,
                         child: Text("준서"),
+                        backgroundColor: isDark ? Colors.grey.shade500 : null,
                       ),
                       Gaps.h10,
                       Expanded(
@@ -147,83 +151,83 @@ class _VideoCommentsState extends State<VideoComments> {
               Positioned(
                 bottom: 0,
                 width: size.width,
-                child: BottomAppBar(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Sizes.size16,
-                      vertical: Sizes.size10,
-                    ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 18,
-                          backgroundColor: Colors.grey.shade500,
-                          foregroundColor: Colors.white,
-                          child: const Text("준서"),
-                        ),
-                        Gaps.h10,
-                        Expanded(
-                          child: SizedBox(
-                            height: Sizes.size44,
-                            child: TextField(
-                              controller: _textEditingController,
-                              onTap: _onStartWriting,
-                              expands: true,
-                              minLines: null,
-                              maxLines: null,
-                              textInputAction: TextInputAction.newline,
-                              decoration: InputDecoration(
-                                hintText: "Write a comment...",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      Sizes.size12,
-                                    ),
-                                    borderSide: BorderSide.none),
-                                filled: true,
-                                fillColor: Colors.grey.shade200,
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: Sizes.size12,
-                                ),
-                                suffixIcon: Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: Sizes.size14),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      FaIcon(
-                                        FontAwesomeIcons.at,
-                                        color: Colors.grey.shade900,
-                                      ),
-                                      Gaps.h14,
-                                      FaIcon(
-                                        FontAwesomeIcons.gift,
-                                        color: Colors.grey.shade900,
-                                      ),
-                                      Gaps.h14,
-                                      FaIcon(
-                                        FontAwesomeIcons.faceSmile,
-                                        color: Colors.grey.shade900,
-                                      ),
-                                      Gaps.h14,
-                                      if (_isButtonEnabled)
-                                        GestureDetector(
-                                          onTap: _onSendMessage,
-                                          child: FaIcon(
-                                            FontAwesomeIcons.circleArrowUp,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                    ],
+                child: Container(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  padding: const EdgeInsets.only(
+                    top: Sizes.size12,
+                    bottom: Sizes.size32,
+                    left: Sizes.size12,
+                    right: Sizes.size12,
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 18,
+                        backgroundColor: Colors.grey.shade500,
+                        foregroundColor: Colors.white,
+                        child: const Text("준서"),
+                      ),
+                      Gaps.h10,
+                      Expanded(
+                        child: SizedBox(
+                          height: Sizes.size44,
+                          child: TextField(
+                            controller: _textEditingController,
+                            onTap: _onStartWriting,
+                            expands: true,
+                            minLines: null,
+                            maxLines: null,
+                            textInputAction: TextInputAction.newline,
+                            decoration: InputDecoration(
+                              hintText: "Write a comment...",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Sizes.size12,
                                   ),
+                                  borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: Sizes.size12,
+                              ),
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(
+                                    right: Sizes.size14),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    FaIcon(
+                                      FontAwesomeIcons.at,
+                                      color: isDark ? Colors.grey.shade500 : Colors.grey.shade900,
+                                    ),
+                                    Gaps.h14,
+                                    FaIcon(
+                                      FontAwesomeIcons.gift,
+                                      color: isDark ? Colors.grey.shade500 : Colors.grey.shade900,
+                                    ),
+                                    Gaps.h14,
+                                    FaIcon(
+                                      FontAwesomeIcons.faceSmile,
+                                      color: isDark ? Colors.grey.shade500 : Colors.grey.shade900,
+                                    ),
+                                    Gaps.h14,
+                                    if (_isButtonEnabled)
+                                      GestureDetector(
+                                        onTap: _onSendMessage,
+                                        child: FaIcon(
+                                          FontAwesomeIcons.circleArrowUp,
+                                          color:
+                                              Theme.of(context).primaryColor,
+                                        ),
+                                      ),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

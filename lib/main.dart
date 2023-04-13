@@ -24,22 +24,62 @@ class TikTokApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
+      themeMode: ThemeMode.system,
       theme: ThemeData(
-        primaryColor: const Color(0xFFE9435A),
+          useMaterial3: true,
+          brightness: Brightness.light,
+          textTheme: Typography.blackMountainView,
+          primaryColor: const Color(0xFFE9435A),
+          textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: Color(0xFFE9435A),
+          ),
+          bottomAppBarTheme: BottomAppBarTheme(color: Colors.grey.shade50),
+          splashColor: Colors.transparent,
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: const AppBarTheme(
+            surfaceTintColor: Colors.white,
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontSize: Sizes.size18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          tabBarTheme: TabBarTheme(
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.grey.shade500,
+            indicatorColor: Colors.black,
+          ),
+          listTileTheme: const ListTileThemeData(
+            iconColor: Colors.black,
+          )),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        textTheme: Typography.whiteMountainView,
+        brightness: Brightness.dark,
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Color(0xFFE9435A),
         ),
-        splashColor: Colors.transparent,
-        scaffoldBackgroundColor: Colors.white,
-        appBarTheme: const AppBarTheme(
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          titleTextStyle: TextStyle(
-            color: Colors.black,
+        scaffoldBackgroundColor: Colors.black,
+        primaryColor: const Color(0xFFE9435A),
+        bottomAppBarTheme: BottomAppBarTheme(color: Colors.grey.shade900),
+        appBarTheme: AppBarTheme(
+          actionsIconTheme: IconThemeData(color: Colors.grey.shade100),
+          surfaceTintColor: Colors.grey.shade900,
+          backgroundColor: Colors.grey.shade900,
+          titleTextStyle: const TextStyle(
+            color: Colors.white,
             fontSize: Sizes.size18,
             fontWeight: FontWeight.w600,
           ),
+          iconTheme: IconThemeData(color: Colors.grey.shade100),
+        ),
+        tabBarTheme: TabBarTheme(
+          indicatorColor: Colors.white,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.grey.shade700,
         ),
       ),
       home: const MainNavigationScreen(),

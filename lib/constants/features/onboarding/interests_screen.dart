@@ -98,9 +98,10 @@ class _InterestScreenState extends State<InterestScreen> {
     return Scaffold(
       appBar: AppBar(
         title: AnimatedOpacity(
-            opacity: _showTitle ? 1 : 0,
-            duration: const Duration(milliseconds: 300),
-            child: const Text("Choose your interests")),
+          opacity: _showTitle ? 1 : 0,
+          duration: const Duration(milliseconds: 300),
+          child: const Text("Choose your interests"),
+        ),
       ),
       body: Scrollbar(
         controller: _scrollController,
@@ -139,8 +140,7 @@ class _InterestScreenState extends State<InterestScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 2,
+      bottomNavigationBar: Container(
         child: Padding(
             padding: const EdgeInsets.only(
               bottom: Sizes.size48,
