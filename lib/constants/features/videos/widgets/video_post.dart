@@ -8,6 +8,7 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../../generated/l10n.dart';
 import '../../../sizes.dart';
 
 class VideoPost extends StatefulWidget {
@@ -48,7 +49,7 @@ class _VideoPostState extends State<VideoPost>
   void _initVideoPlayer() async {
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
-    if(kIsWeb){
+    if (kIsWeb) {
       await _videoPlayerController.setVolume(0);
       _isVoiceOff = true;
     }
@@ -56,7 +57,7 @@ class _VideoPostState extends State<VideoPost>
     setState(() {});
   }
 
-  void _volumeController(){
+  void _volumeController() {
     setState(() {
       _isVoiceOff = !_isVoiceOff;
       _videoPlayerController.setVolume(_isVoiceOff ? 0 : 100);
@@ -90,7 +91,7 @@ class _VideoPostState extends State<VideoPost>
         !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
     }
-    if(_videoPlayerController.value.isPlaying && info.visibleFraction == 0){
+    if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
       _onTogglePause();
     }
   }
@@ -108,8 +109,8 @@ class _VideoPostState extends State<VideoPost>
     });
   }
 
-  void _onCommentsTap(BuildContext context) async{
-    if(_videoPlayerController.value.isPlaying){
+  void _onCommentsTap(BuildContext context) async {
+    if (_videoPlayerController.value.isPlaying) {
       _onTogglePause();
     }
     await showModalBottomSheet(
@@ -210,14 +211,16 @@ class _VideoPostState extends State<VideoPost>
                   child: Text("준서"),
                 ),
                 Gaps.v20,
-                const VideoButton(
-                    icon: FontAwesomeIcons.solidHeart, text: "2.9M"),
+                VideoButton(
+                  icon: FontAwesomeIcons.solidHeart,
+                  text: S.of(context).likeCount(9879879879717),
+                ),
                 Gaps.v20,
                 GestureDetector(
                   onTap: () => _onCommentsTap(context),
-                  child: const VideoButton(
+                  child: VideoButton(
                     icon: FontAwesomeIcons.solidComment,
-                    text: "33.0K",
+                    text: S.of(context).commentCount(65656),
                   ),
                 ),
                 Gaps.v20,
@@ -229,7 +232,9 @@ class _VideoPostState extends State<VideoPost>
                 GestureDetector(
                   onTap: _volumeController,
                   child: VideoButton(
-                    icon: _isVoiceOff ? FontAwesomeIcons.volumeXmark : FontAwesomeIcons.volumeHigh,
+                    icon: _isVoiceOff
+                        ? FontAwesomeIcons.volumeXmark
+                        : FontAwesomeIcons.volumeHigh,
                     text: "Volume",
                   ),
                 ),
