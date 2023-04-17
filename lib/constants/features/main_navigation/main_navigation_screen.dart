@@ -58,7 +58,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
+      backgroundColor:
+          _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
       body: Stack(
         children: [
           Offstage(
@@ -75,11 +76,13 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: UserProfileScreen(),
+            child: UserProfileScreen(
+              username: "준서",
+              tab: "",
+            ),
           ),
         ],
       ),
-
       bottomNavigationBar: Container(
         color: _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
         padding: const EdgeInsets.only(
