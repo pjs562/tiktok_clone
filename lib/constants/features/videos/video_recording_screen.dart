@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -213,13 +210,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                     _deniedPermission
                         ? "you have to allow permission..."
                         : "initializing ...",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: Sizes.size20,
                     ),
                   ),
                   Gaps.v20,
-                  CircularProgressIndicator.adaptive()
+                  const CircularProgressIndicator.adaptive()
                 ],
               )
             : Stack(
@@ -235,7 +232,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                         IconButton(
                           color: Colors.white,
                           onPressed: _toggleSelfieMode,
-                          icon: Icon(Icons.cameraswitch),
+                          icon: const Icon(Icons.cameraswitch),
                         ),
                         Gaps.v10,
                         IconButton(
@@ -243,7 +240,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                               ? Colors.yellow
                               : Colors.white,
                           onPressed: () => _setFlashMode(FlashMode.off),
-                          icon: Icon(Icons.flash_off_rounded),
+                          icon: const Icon(Icons.flash_off_rounded),
                         ),
                         Gaps.v10,
                         IconButton(
@@ -251,7 +248,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                               ? Colors.yellow
                               : Colors.white,
                           onPressed: () => _setFlashMode(FlashMode.always),
-                          icon: Icon(Icons.flash_on_rounded),
+                          icon: const Icon(Icons.flash_on_rounded),
                         ),
                         Gaps.v10,
                         IconButton(
@@ -259,7 +256,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                               ? Colors.yellow
                               : Colors.white,
                           onPressed: () => _setFlashMode(FlashMode.auto),
-                          icon: Icon(Icons.flash_auto_rounded),
+                          icon: const Icon(Icons.flash_auto_rounded),
                         ),
                         Gaps.v10,
                         IconButton(
@@ -267,7 +264,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                               ? Colors.yellow
                               : Colors.white,
                           onPressed: () => _setFlashMode(FlashMode.torch),
-                          icon: Icon(Icons.flashlight_on_rounded),
+                          icon: const Icon(Icons.flashlight_on_rounded),
                         ),
                       ],
                     ),
@@ -297,7 +294,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                Container(
+                                SizedBox(
                                   width: 94,
                                   height: 94,
                                   child: CircularProgressIndicator(
