@@ -185,7 +185,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     );
   }
 
-  void _zoom(DragUpdateDetails details) {
+  void _changeCameraZoom(DragUpdateDetails details) {
     setState(() {
       _yOffset = _yOffset - details.delta.dy * 0.1;
       if (_yOffset > _maxZoomLevel){
@@ -288,9 +288,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                       children: [
                         const Spacer(),
                         GestureDetector(
-                          onLongPressEnd: (_) => _stopRecording(),
-                          onVerticalDragUpdate: (DragUpdateDetails details) =>
-                              _zoom(details),
+                          onPanUpdate: (DragUpdateDetails details) =>
+                              _changeCameraZoom(details),
                           onTapDown: _startRecording,
                           onTapUp: (details) => _stopRecording(),
                           child: ScaleTransition(
