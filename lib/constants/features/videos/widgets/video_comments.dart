@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
+import '../../../../common/widgets/dark_mode_configuration/dark_mode_config.dart';
+import '../../../../common/widgets/video_configuration/video_config.dart';
 import '../../../../generated/l10n.dart';
 import '../../utils.dart';
 
@@ -66,7 +68,7 @@ class _VideoCommentsState extends State<VideoComments> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+    final isDark = darkModConfig.value;
     final size = MediaQuery.of(context).size;
     return Container(
       height: size.height * 0.7,

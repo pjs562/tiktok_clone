@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/breakpoints.dart';
-import 'package:tiktok_clone/constants/features/utils.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import '../../../common/widgets/dark_mode_configuration/dark_mode_config.dart';
 
 final tabs = [
   "Top",
@@ -104,7 +104,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                   children: [
                     Gaps.h14,
                     FaIcon(FontAwesomeIcons.magnifyingGlass,
-                        color: isDarkMode(context) ? Colors.white : Colors.black),
+                        color: darkModConfig.value ? Colors.white : Colors.black),
                   ],
                 ),
                 suffixIcon: Row(
@@ -195,7 +195,7 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                         constraints.maxWidth > 250)
                       DefaultTextStyle(
                         style: TextStyle(
-                          color: isDarkMode(context) ? Colors.grey.shade300: Colors.grey.shade600,
+                          color: darkModConfig.value ? Colors.grey.shade300: Colors.grey.shade600,
                           fontWeight: FontWeight.w600,
                         ),
                         child: Row(

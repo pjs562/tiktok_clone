@@ -1,12 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiktok_clone/constants/features/utils.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import '../../../common/widgets/dark_mode_configuration/dark_mode_config.dart';
 
 class ChatDetailScreen extends StatefulWidget {
-  const ChatDetailScreen({Key? key}) : super(key: key);
+  static const String routeName = "chatDetail";
+  static const String routeURL = ":chatId";
+
+  final String chatId;
+
+  const ChatDetailScreen({Key? key, required this.chatId}) : super(key: key);
 
   @override
   State<ChatDetailScreen> createState() => _ChatDetailScreenState();
@@ -43,7 +48,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+    final isDark = darkModConfig.value;
     return Scaffold(
       backgroundColor: isDark ? null : Colors.grey.shade50,
       appBar: AppBar(
@@ -80,7 +85,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             ],
           ),
           title: Text(
-            '준서',
+            '준서 ${widget.chatId}',
             style: TextStyle(
               fontWeight: FontWeight.w600,
             ),
@@ -160,7 +165,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 horizontal: Sizes.size12,
                 vertical: Sizes.size12,
               ),
-              color: isDarkMode(context) ? null : Colors.grey.shade100,
+              color: darkModConfig.value ? null : Colors.grey.shade100,
               child: Row(
                 children: [
                   Expanded(

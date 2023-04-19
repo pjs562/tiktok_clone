@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/features/authentication/password_screen.dart';
 import 'package:tiktok_clone/constants/features/authentication/widgets/form_button.dart';
@@ -12,8 +11,6 @@ class EmailScreenArgs {
 }
 
 class EmailScreen extends StatefulWidget {
-  static String routeName = "email";
-  static String routeURL = "email";
   final String username;
 
   const EmailScreen({Key? key, required this.username}) : super(key: key);

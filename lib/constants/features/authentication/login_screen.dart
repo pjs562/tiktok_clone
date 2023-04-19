@@ -6,13 +6,11 @@ import 'package:tiktok_clone/constants/features/authentication/login_form_screen
 import 'package:tiktok_clone/constants/features/authentication/widgets/auth_button.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-
-import '../utils.dart';
-import 'username_screen.dart';
+import '../../../common/widgets/dark_mode_configuration/dark_mode_config.dart';
 
 class LoginScreen extends StatelessWidget {
-  static String routName = "login";
-  static String routURL = "/login";
+  static String routeName = "login";
+  static String routeURL = "/login";
   const LoginScreen({Key? key}) : super(key: key);
 
   void _onSignUpTap(BuildContext context) {
@@ -50,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                 "Manage your account, check notifications, comment on videos, and more.",
                 style: TextStyle(
                   fontSize: Sizes.size16,
-                  color: isDarkMode(context)
+                  color: darkModConfig.value
                       ? Colors.grey.shade300
                       : Colors.black45,
                 ),
@@ -71,7 +69,7 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Container(
-        color: isDarkMode(context) ? null : Colors.grey.shade50,
+        color: darkModConfig.value ? null : Colors.grey.shade50,
         child: Padding(
           padding: const EdgeInsets.only(
             top: Sizes.size32,

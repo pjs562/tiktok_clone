@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/common/widgets/video_configuration/video_config.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -33,6 +34,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
             //     value: _notifications, onChanged: _onNotificationChanged),
             // Switch(value: _notifications, onChanged: _onNotificationChanged),
             // Checkbox(value: _notifications, onChanged: _onNotificationChanged),
+            ValueListenableBuilder(
+              valueListenable: videoConfig,
+              builder: (context, value, child) => SwitchListTile.adaptive(
+                value: value,
+                onChanged: (value) {
+                  videoConfig.value = !videoConfig.value;
+                },
+                title: const Text("Enabled notifications"),
+                subtitle: const Text("Enabled notifications"),
+              ),
+            ),
             SwitchListTile.adaptive(
               value: _notifications,
               onChanged: _onNotificationChanged,
@@ -71,7 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 if (kDebugMode) {
                   print(date);
                 }
-                if(! mounted) return;
+                if (!mounted) return;
                 final time = await showTimePicker(
                   context: context,
                   initialTime: TimeOfDay.now(),
@@ -79,7 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 if (kDebugMode) {
                   print(time);
                 }
-                if(! mounted) return;
+                if (!mounted) return;
                 final booking = await showDateRangePicker(
                   builder: (context, child) {
                     return Theme(

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/common/widgets/video_configuration/video_config.dart';
 import 'package:tiktok_clone/constants/features/videos/widgets/ExpandableText.dart';
 import 'package:tiktok_clone/constants/features/videos/widgets/video_button.dart';
 import 'package:tiktok_clone/constants/features/videos/widgets/video_comments.dart';
@@ -31,7 +32,7 @@ class _VideoPostState extends State<VideoPost>
       VideoPlayerController.asset("assets/videos/video.mp4");
 
   bool _isPaused = false;
-  bool _isVoiceOff = false;
+  bool _autoMute = videoConfig.value;
 
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
@@ -49,19 +50,12 @@ class _VideoPostState extends State<VideoPost>
   void _initVideoPlayer() async {
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
-    if (kIsWeb) {
+    if (kIsWeb || _autoMute) {
       await _videoPlayerController.setVolume(0);
-      _isVoiceOff = true;
     }
+
     _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
-  }
-
-  void _volumeController() {
-    setState(() {
-      _isVoiceOff = !_isVoiceOff;
-      _videoPlayerController.setVolume(_isVoiceOff ? 0 : 100);
-    });
   }
 
   @override
@@ -76,6 +70,13 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animationDuration,
     );
+    
+    videoConfig.addListener(() {
+      setState(() {
+        _autoMute = videoConfig.value;
+        _videoPlayerController.setVolume(_autoMute ? 0 : 100);
+      });
+    });
   }
 
   @override
@@ -191,9 +192,10 @@ class _VideoPostState extends State<VideoPost>
                 ),
                 Gaps.v5,
                 ExpandableText(
-                    text:
-                        "#고양이 #노르웨이 숲 고양이 #동물짤 #귀여운짤 #좋아요 #좋반#좋테 #맞팔환영 #고양이짤 #존귀",
-                    maxLines: 1)
+                  text:
+                      "#고양이 #노르웨이 숲 고양이 #동물짤 #귀여운짤 #좋아요 #좋반#좋테 #맞팔환영 #고양이짤 #존귀",
+                  maxLines: 1,
+                )
               ],
             ),
           ),
@@ -230,9 +232,9 @@ class _VideoPostState extends State<VideoPost>
                 ),
                 Gaps.v20,
                 GestureDetector(
-                  onTap: _volumeController,
+                  onTap: (){videoConfig.value = !videoConfig.value;},
                   child: VideoButton(
-                    icon: _isVoiceOff
+                    icon: _autoMute
                         ? FontAwesomeIcons.volumeXmark
                         : FontAwesomeIcons.volumeHigh,
                     text: "Volume",

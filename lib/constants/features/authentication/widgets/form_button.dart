@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tiktok_clone/constants/features/utils.dart';
-
+import '../../../../common/widgets/dark_mode_configuration/dark_mode_config.dart';
 import '../../../sizes.dart';
 
 class FormButton extends StatelessWidget {
@@ -23,7 +22,7 @@ class FormButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Sizes.size5),
           color: disabled
-              ? isDarkMode(context)
+              ? darkModConfig.value
                   ? Colors.grey.shade800
                   : Colors.grey.shade300
               : Theme.of(context).primaryColor,

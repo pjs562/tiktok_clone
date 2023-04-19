@@ -29,7 +29,7 @@ class _ExpandableTextState extends State<ExpandableText> {
           onTap: _onChangeExpanded,
           child: AnimatedContainer(
             width: 250,
-            height: _isExpanded ? 140 : (widget.maxLines * 14),
+            height: _isExpanded ? 150 : (widget.maxLines * 17),
             duration: const Duration(milliseconds: 200),
             child: Text(
               widget.text,

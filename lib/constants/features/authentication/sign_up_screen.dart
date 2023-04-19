@@ -4,58 +4,29 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/features/authentication/username_screen.dart';
 import 'package:tiktok_clone/constants/features/authentication/widgets/auth_button.dart';
-import 'package:tiktok_clone/constants/features/utils.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import '../../../common/widgets/dark_mode_configuration/dark_mode_config.dart';
 import '../../../generated/l10n.dart';
 import 'login_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
   static const routeURL = "/";
   static const routeName = "signUp";
+
   const SignUpScreen({Key? key}) : super(key: key);
 
   void _onLoginTap(BuildContext context) async {
-    context.push(LoginScreen.routName);
-    // final result = await Navigator.of(context).push(//방법1
-    //   MaterialPageRoute(
-    //     builder: (context) => const LoginScreen(),
-    //   ),
-    // );
-    // print(result);
-    // final result = await Navigator.of(context).pushNamed(LoginScreen.routName);//방법2
-
+    context.pushNamed(LoginScreen.routeName);
   }
 
   void _onEmailTap(BuildContext context) {
-    context.pushNamed(UsernameScreen.routeName);
-    // Navigator.of(context).push( //방법1
-    //   PageRouteBuilder( //화면 전환 애니메이션
-    //     transitionDuration: Duration(milliseconds: 300),
-    //     reverseTransitionDuration: Duration(milliseconds: 300),
-    //     pageBuilder: (context, animation, secondaryAnimation) =>
-    //         const UsernameScreen(),
-    //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //       final offsetAnimation = Tween(
-    //         begin: Offset(0, 0.3),
-    //         end: Offset.zero,
-    //       ).animate(animation);
-    //       final opacityAnimation = Tween(
-    //         begin: 0.5,
-    //         end: 1.0,
-    //       ).animate(animation);
-    //
-    //       return SlideTransition(
-    //         position: offsetAnimation,
-    //         child: FadeTransition(
-    //           opacity: opacityAnimation,
-    //           child: child,
-    //         ),
-    //       );
-    //     }
-    //   ),
-    // );
-    // Navigator.of(context).pushNamed(UsernameScreen.routeName); //방법2
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const UsernameScreen(),
+      ),
+    );
   }
 
   @override
@@ -83,7 +54,7 @@ class SignUpScreen extends StatelessWidget {
                     S.of(context).signUpSubtitle(3),
                     style: TextStyle(
                       fontSize: Sizes.size16,
-                      color: isDarkMode(context)
+                      color: darkModConfig.value
                           ? Colors.grey.shade300
                           : Colors.black45,
                     ),
@@ -124,7 +95,7 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: Container(
-            color: isDarkMode(context) ? null : Colors.grey.shade50,
+            color: darkModConfig.value ? null : Colors.grey.shade50,
             child: Padding(
               padding: const EdgeInsets.only(
                 top: Sizes.size32,

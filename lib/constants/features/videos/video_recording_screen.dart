@@ -8,6 +8,8 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
+  static const String routeName = "postVideo";
+  static const String routeURL = "/upload";
   const VideoRecordingScreen({Key? key}) : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   double _yOffset = 1.0;
 
-  late final double _maxZoomLevel;
+  late double _maxZoomLevel;
   final double _minZoomLevel = 0.5;
 
   late FlashMode _flashMode;
@@ -224,6 +226,10 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                 children: [
                   if (_cameraController.value.isInitialized)
                     CameraPreview(_cameraController),
+                  const Positioned(
+                      top: Sizes.size28,
+                      left: Sizes.size10,
+                      child: CloseButton(color: Colors.white,)),
                   Positioned(
                     top: Sizes.size28,
                     right: Sizes.size10,
