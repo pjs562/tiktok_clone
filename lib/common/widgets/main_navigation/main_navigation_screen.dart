@@ -4,12 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/common/widgets/main_navigation/widgets/nav_tab.dart';
 import 'package:tiktok_clone/common/widgets/main_navigation/widgets/post_video_button.dart';
-import 'package:tiktok_clone/common/widgets/video_configuration/video_config.dart';
 import 'package:tiktok_clone/constants/features/discover/discover_screen.dart';
 import 'package:tiktok_clone/constants/features/inbox/inbox_screen.dart';
 import 'package:tiktok_clone/constants/features/users/user_progfile_screen.dart';
-import 'package:tiktok_clone/constants/features/videos/video_recording_screen.dart';
-import 'package:tiktok_clone/constants/features/videos/video_timeline_screen.dart';
+import 'package:tiktok_clone/constants/features/videos/views/video_recording_screen.dart';
+import 'package:tiktok_clone/constants/features/videos/views/video_timeline_screen.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
@@ -64,7 +63,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = darkModConfig.value;
-    print("TEST: $isDark");
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

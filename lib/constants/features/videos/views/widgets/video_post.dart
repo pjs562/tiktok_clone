@@ -1,16 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiktok_clone/common/widgets/video_configuration/video_config.dart';
-import 'package:tiktok_clone/constants/features/videos/widgets/ExpandableText.dart';
-import 'package:tiktok_clone/constants/features/videos/widgets/video_button.dart';
-import 'package:tiktok_clone/constants/features/videos/widgets/video_comments.dart';
+import 'package:provider/provider.dart';
+import 'package:tiktok_clone/constants/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktok_clone/constants/features/videos/views/widgets/video_button.dart';
+import 'package:tiktok_clone/constants/features/videos/views/widgets/video_comments.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../../../generated/l10n.dart';
-import '../../../sizes.dart';
+import '../../../../../generated/l10n.dart';
+import '../../../../sizes.dart';
+import 'ExpandableText.dart';
+
 
 class VideoPost extends StatefulWidget {
   final Function onVideoFinished;
@@ -32,7 +34,8 @@ class _VideoPostState extends State<VideoPost>
       VideoPlayerController.asset("assets/videos/video.mp4");
 
   bool _isPaused = false;
-  bool _autoMute = videoConfig.value;
+  late var viewModel = context.read<PlaybackConfigViewModel>();
+  late bool _isMuted = viewModel.muted;
 
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
@@ -50,7 +53,7 @@ class _VideoPostState extends State<VideoPost>
   void _initVideoPlayer() async {
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
-    if (kIsWeb || _autoMute) {
+    if (kIsWeb || _isMuted) {
       await _videoPlayerController.setVolume(0);
     }
 
@@ -70,12 +73,19 @@ class _VideoPostState extends State<VideoPost>
       value: 1.5,
       duration: _animationDuration,
     );
-    
-    videoConfig.addListener(() {
-      setState(() {
-        _autoMute = videoConfig.value;
-        _videoPlayerController.setVolume(_autoMute ? 0 : 100);
-      });
+    context.read<PlaybackConfigViewModel>().addListener(_onPlaybackConfigChanged);
+  }
+
+  void _onPlaybackConfigChanged(){
+    if (!mounted) return;
+    _isMuted = context.read<PlaybackConfigViewModel>().muted;
+    if(_isMuted){
+      _videoPlayerController.setVolume(0);
+    }else{
+      _videoPlayerController.setVolume(1);
+    }
+    setState(() {
+
     });
   }
 
@@ -90,7 +100,10 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      _videoPlayerController.play();
+      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
+      if(autoplay){
+        _videoPlayerController.play();
+      }
     }
     if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
       _onTogglePause();
@@ -110,6 +123,17 @@ class _VideoPostState extends State<VideoPost>
     });
   }
 
+  void _volumeChange(){
+    _isMuted = !_isMuted;
+    if(_isMuted){
+      _videoPlayerController.setVolume(0);
+    }else{
+      _videoPlayerController.setVolume(1);
+    }
+    setState(() {
+
+    });
+  }
   void _onCommentsTap(BuildContext context) async {
     if (_videoPlayerController.value.isPlaying) {
       _onTogglePause();
@@ -232,9 +256,9 @@ class _VideoPostState extends State<VideoPost>
                 ),
                 Gaps.v20,
                 GestureDetector(
-                  onTap: (){videoConfig.value = !videoConfig.value;},
+                  onTap: _volumeChange,
                   child: VideoButton(
-                    icon: _autoMute
+                    icon: _isMuted
                         ? FontAwesomeIcons.volumeXmark
                         : FontAwesomeIcons.volumeHigh,
                     text: "Volume",

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tiktok_clone/constants/features/videos/repos/video_playback_cofig_repo.dart';
+import 'package:tiktok_clone/constants/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/router.dart';
-
 import 'generated/l10n.dart';
 
 void main() async {
@@ -14,7 +17,18 @@ void main() async {
   ]);
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-  runApp(const TikTokApp());
+
+  final preferences = await SharedPreferences.getInstance();
+  final repository = PlaybackConfigRepository(preferences);
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => PlaybackConfigViewModel(repository),
+      ),
+    ],
+    child: const TikTokApp(),
+  ));
 }
 
 class TikTokApp extends StatelessWidget {
