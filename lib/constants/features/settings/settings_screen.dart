@@ -1,29 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:tiktok_clone/constants/features/videos/view_models/playback_config_vm.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notifications = false;
-
-  void _onNotificationChanged(bool? newValue) {
-    if (newValue == null) return;
-    setState(() {
-      _notifications = newValue;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         appBar: AppBar(
           title: Text('Settings'),
@@ -36,27 +22,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // Switch(value: _notifications, onChanged: _onNotificationChanged),
             // Checkbox(value: _notifications, onChanged: _onNotificationChanged),
             SwitchListTile.adaptive(
-              value: context.watch<PlaybackConfigViewModel>().muted,
-              onChanged: (value) => context.read<PlaybackConfigViewModel>().setMuted(value),
+              value: ref.watch(playbackConfigProvider).muted,
+              onChanged: (value) =>
+                  ref.read(playbackConfigProvider.notifier).setMuted(value),
               title: const Text("Mute video"),
               subtitle: const Text("Video will be muted by default."),
             ),
             SwitchListTile.adaptive(
-              value: context.watch<PlaybackConfigViewModel>().autoplay,
-              onChanged: (value) => context.read<PlaybackConfigViewModel>().setAutoplay(value),
+              value: ref.watch(playbackConfigProvider).autoplay,
+              onChanged: (value) =>
+                  ref.read(playbackConfigProvider.notifier).setAutoplay(value),
               title: const Text("Autoplay"),
               subtitle: const Text("Video will start playing automatically."),
             ),
             SwitchListTile.adaptive(
-              value: _notifications,
-              onChanged: _onNotificationChanged,
+              value: false,
+              onChanged: (value) {},
               title: const Text("Enabled notifications"),
               subtitle: const Text("Enabled notifications"),
             ),
             CheckboxListTile(
-              value: _notifications,
+              value: false,
               activeColor: Colors.black,
-              onChanged: _onNotificationChanged,
+              onChanged: (value) {},
               title: Text("Marketing emails"),
               subtitle: Text("We won't spam you."),
             ),
@@ -85,7 +73,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 if (kDebugMode) {
                   print(date);
                 }
-                if (!mounted) return;
+
                 final time = await showTimePicker(
                   context: context,
                   initialTime: TimeOfDay.now(),
@@ -93,7 +81,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 if (kDebugMode) {
                   print(time);
                 }
-                if (!mounted) return;
+
                 final booking = await showDateRangePicker(
                   builder: (context, child) {
                     return Theme(
