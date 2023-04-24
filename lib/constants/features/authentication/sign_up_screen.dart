@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/constants/features/authentication/username_screen.dart';
+import 'package:tiktok_clone/constants/features/authentication/view_models/social_auth_view_model.dart';
 import 'package:tiktok_clone/constants/features/authentication/widgets/auth_button.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
@@ -10,7 +12,7 @@ import '../../../common/widgets/dark_mode_configuration/dark_mode_config.dart';
 import '../../../generated/l10n.dart';
 import 'login_screen.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends ConsumerWidget {
   static const routeURL = "/";
   static const routeName = "signUp";
 
@@ -30,7 +32,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return OrientationBuilder(
       builder: (context, orientation) {
         return Scaffold(
@@ -68,9 +70,11 @@ class SignUpScreen extends StatelessWidget {
                         text: S.of(context).emailPasswordButton),
                     Gaps.v16,
                     AuthButton(
-                        onPressed: _onEmailTap,
-                        icon: const FaIcon(FontAwesomeIcons.apple),
-                        text: S.of(context).appleButton),
+                        onPressed: (context) => ref
+                            .read(socialAuthProvider.notifier)
+                            .githubSignIn(context),
+                        icon: const FaIcon(FontAwesomeIcons.github),
+                        text: "Continue with Github"),
                   ],
                   if (orientation == Orientation.landscape)
                     Row(
