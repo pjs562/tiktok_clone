@@ -9,7 +9,6 @@ class TimelineViewModel extends AsyncNotifier<List<VideoModel>> {
 
   void uploadVideo() async {
     state = AsyncValue.loading();
-    await Future.delayed(const Duration(seconds: 2));
     final newVideo = VideoModel(title: "${DateTime.now()}");
     _list = [..._list, newVideo];
     state = AsyncValue.data(_list);
@@ -17,7 +16,6 @@ class TimelineViewModel extends AsyncNotifier<List<VideoModel>> {
 
   @override
   FutureOr<List<VideoModel>> build() async{
-    await Future.delayed(Duration(seconds: 5));
     return _list;
   }
 }
