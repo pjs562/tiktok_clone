@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/features/videos/models/video_model.dart';
 import 'package:tiktok_clone/constants/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/constants/features/videos/views/widgets/video_button.dart';
 import 'package:tiktok_clone/constants/features/videos/views/widgets/video_comments.dart';
@@ -13,13 +14,14 @@ import '../../../../../generated/l10n.dart';
 import '../../../../sizes.dart';
 import 'ExpandableText.dart';
 
-
 class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
+  final VideoModel videoData;
   final int index;
 
   const VideoPost({
     Key? key,
+    required this.videoData,
     required this.onVideoFinished,
     required this.index,
   }) : super(key: key);
@@ -73,20 +75,17 @@ class VideoPostState extends ConsumerState<VideoPost>
       value: 1.5,
       duration: _animationDuration,
     );
-
   }
 
-  void _onPlaybackConfigChanged(){
+  void _onPlaybackConfigChanged() {
     if (!mounted) return;
     _isMuted = !_isMuted;
-    if(_isMuted){
+    if (_isMuted) {
       _videoPlayerController.setVolume(0);
-    }else{
+    } else {
       _videoPlayerController.setVolume(1);
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -100,7 +99,7 @@ class VideoPostState extends ConsumerState<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      if(ref.read(playbackConfigProvider).autoplay){
+      if (ref.read(playbackConfigProvider).autoplay) {
         _videoPlayerController.play();
       }
     }
@@ -145,9 +144,7 @@ class VideoPostState extends ConsumerState<VideoPost>
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
                 ? VideoPlayer(_videoPlayerController)
-                : Container(
-                    color: Colors.black,
-                  ),
+                : Image.network(widget.videoData.thumbnailUrl, fit: BoxFit.cover,),
           ),
           Positioned.fill(child: GestureDetector(onTap: _onTogglePause)),
           Positioned.fill(
@@ -185,9 +182,9 @@ class VideoPostState extends ConsumerState<VideoPost>
             left: 12,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  "@jspark1349",
+                  "@${widget.videoData.creator}",
                   style: TextStyle(
                     fontSize: Sizes.size16,
                     color: Colors.white,
@@ -196,7 +193,7 @@ class VideoPostState extends ConsumerState<VideoPost>
                 ),
                 Gaps.v10,
                 Text(
-                  "맨날 잠만 자는 하트",
+                  widget.videoData.title,
                   style: TextStyle(
                     fontSize: Sizes.size14,
                     color: Colors.white,
@@ -204,8 +201,7 @@ class VideoPostState extends ConsumerState<VideoPost>
                 ),
                 Gaps.v5,
                 ExpandableText(
-                  text:
-                      "#고양이 #노르웨이 숲 고양이 #동물짤 #귀여운짤 #좋아요 #좋반#좋테 #맞팔환영 #고양이짤 #존귀",
+                  text: widget.videoData.description,
                   maxLines: 1,
                 )
               ],
@@ -216,25 +212,26 @@ class VideoPostState extends ConsumerState<VideoPost>
             right: 12,
             child: Column(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.black87,
                   foregroundColor: Colors.white,
                   foregroundImage: NetworkImage(
-                      "https://yt3.ggpht.com/mnzLrvJvPhpqDu3q7bJmEfh4dbIhmimi0ZHU5yxK6GuBf6bkgSqajNEqSvHuoSkX0fmVNhwY=s88-c-k-c0x00ffffff-no-rj-mo"),
-                  child: Text("준서"),
+                    "https://firebasestorage.googleapis.com/v0/b/tiktok-parkjoonseo.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media",
+                  ),
+                  child: Text(widget.videoData.creator),
                 ),
                 Gaps.v20,
                 VideoButton(
                   icon: FontAwesomeIcons.solidHeart,
-                  text: S.of(context).likeCount(9879879879717),
+                  text: S.of(context).likeCount(widget.videoData.likes),
                 ),
                 Gaps.v20,
                 GestureDetector(
                   onTap: () => _onCommentsTap(context),
                   child: VideoButton(
                     icon: FontAwesomeIcons.solidComment,
-                    text: S.of(context).commentCount(65656),
+                    text: S.of(context).commentCount(widget.videoData.comments),
                   ),
                 ),
                 Gaps.v20,

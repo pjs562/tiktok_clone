@@ -66,6 +66,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1020820846496',
     projectId: 'tiktok-parkjoonseo',
     storageBucket: 'tiktok-parkjoonseo.appspot.com',
+    androidClientId: '1020820846496-0echdclcspjnojrlhi5tsiqtjhtksjll.apps.googleusercontent.com',
     iosClientId: '1020820846496-0rkesp0mtsc1j713ved73ca4k6ffsq49.apps.googleusercontent.com',
     iosBundleId: 'com.joonseo.tiktokClone',
   );
@@ -76,6 +77,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1020820846496',
     projectId: 'tiktok-parkjoonseo',
     storageBucket: 'tiktok-parkjoonseo.appspot.com',
+    androidClientId: '1020820846496-0echdclcspjnojrlhi5tsiqtjhtksjll.apps.googleusercontent.com',
     iosClientId: '1020820846496-0af49pdoi6dm0nhgokvrdlal87c0dv1p.apps.googleusercontent.com',
     iosBundleId: 'com.example.tiktokClone',
   );

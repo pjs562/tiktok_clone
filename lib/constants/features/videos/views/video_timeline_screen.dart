@@ -50,31 +50,34 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(timelineProvider).when(
-        loading: () =>
-            Center(
-              child: CircularProgressIndicator(),
-            ),
-        error: (error, stackTrace) =>
-            Center(
-              child: Text('Could not load videos: $error',
-              style: TextStyle(color: Colors.white),),
-            ),
-        data: (videos) => RefreshIndicator(
-          displacement: 70,
-          backgroundColor: Colors.black87,
-          color: Theme
-              .of(context)
-              .primaryColor,
-          onRefresh: _onRefresh,
-          child: PageView.builder(
-            controller: _pageController,
-            scrollDirection: Axis.vertical,
-            onPageChanged: _onPageChanged,
-            itemCount: videos.length,
-            itemBuilder: (BuildContext context, int index) =>
-                VideoPost(onVideoFinished: _onVideoFinished, index: index),
+          loading: () => Center(
+            child: CircularProgressIndicator(),
           ),
-        ),
-    );
+          error: (error, stackTrace) => Center(
+            child: Text(
+              'Could not load videos: $error',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          data: (videos) => RefreshIndicator(
+            displacement: 70,
+            backgroundColor: Colors.black87,
+            color: Theme.of(context).primaryColor,
+            onRefresh: _onRefresh,
+            child: PageView.builder(
+                controller: _pageController,
+                scrollDirection: Axis.vertical,
+                onPageChanged: _onPageChanged,
+                itemCount: videos.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final videoData = videos[index];
+                  return VideoPost(
+                    onVideoFinished: _onVideoFinished,
+                    index: index,
+                    videoData: videoData,
+                  );
+                }),
+          ),
+        );
   }
 }

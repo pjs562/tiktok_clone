@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1020820846496-0echdclcspjnojrlhi5tsiqtjhtksjll.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tiktok_clone",
+            "certificate_hash": "04d4dcb10e59eac7a247fac759cb467ddbc7f30c"
+          }
+        },
+        {
           "client_id": "1020820846496-06no5m683capmihtj98mf5p6mm84i3ss.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -31,10 +39,10 @@
               "client_type": 3
             },
             {
-              "client_id": "1020820846496-0rkesp0mtsc1j713ved73ca4k6ffsq49.apps.googleusercontent.com",
+              "client_id": "1020820846496-0af49pdoi6dm0nhgokvrdlal87c0dv1p.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.joonseo.tiktokClone"
+                "bundle_id": "com.example.tiktokClone"
               }
             }
           ]
