@@ -4,8 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/features/videos/models/video_model.dart';
 import 'package:tiktok_clone/constants/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktok_clone/constants/features/videos/view_models/video_post_view_model.dart';
 import 'package:tiktok_clone/constants/features/videos/views/widgets/video_button.dart';
 import 'package:tiktok_clone/constants/features/videos/views/widgets/video_comments.dart';
+import 'package:tiktok_clone/constants/features/videos/views/widgets/video_likes.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -144,7 +146,10 @@ class VideoPostState extends ConsumerState<VideoPost>
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
                 ? VideoPlayer(_videoPlayerController)
-                : Image.network(widget.videoData.thumbnailUrl, fit: BoxFit.cover,),
+                : Image.network(
+                    widget.videoData.thumbnailUrl,
+                    fit: BoxFit.cover,
+                  ),
           ),
           Positioned.fill(child: GestureDetector(onTap: _onTogglePause)),
           Positioned.fill(
@@ -222,9 +227,9 @@ class VideoPostState extends ConsumerState<VideoPost>
                   child: Text(widget.videoData.creator),
                 ),
                 Gaps.v20,
-                VideoButton(
-                  icon: FontAwesomeIcons.solidHeart,
-                  text: S.of(context).likeCount(widget.videoData.likes),
+                VideoLikes(
+                  likes: widget.videoData.likes,
+                  videoId: widget.videoData.id,
                 ),
                 Gaps.v20,
                 GestureDetector(

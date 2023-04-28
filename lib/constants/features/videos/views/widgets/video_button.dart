@@ -7,11 +7,13 @@ import 'package:tiktok_clone/constants/sizes.dart';
 class VideoButton extends StatelessWidget {
   final IconData icon;
   final String text;
+  final bool isCliked;
 
   const VideoButton({
     Key? key,
     required this.icon,
     required this.text,
+    this.isCliked = false,
   }) : super(key: key);
 
   @override
@@ -20,7 +22,7 @@ class VideoButton extends StatelessWidget {
       children: [
         FaIcon(
           icon,
-          color: Colors.white,
+          color: isCliked? Theme.of(context).primaryColor : Colors.white,
           size: Sizes.size32,
         ),
         Gaps.v3,

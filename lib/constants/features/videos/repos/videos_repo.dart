@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiktok_clone/constants/features/videos/models/video_like_model.dart';
 
 import '../models/video_model.dart';
 
@@ -22,11 +23,48 @@ class VideosRepository {
     await _db.collection("videos").add(data.toJson());
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> fetchVideos() {
-    return _db.collection("videos").orderBy(
+  Future<QuerySnapshot<Map<String, dynamic>>> fetchVideos({
+    int? lastItemCreatedAt,
+  }) {
+    final query = _db
+        .collection("videos")
+        .orderBy(
           "createdAt",
           descending: true,
-        ).get();
+        )
+        .limit(2);
+    if (lastItemCreatedAt == null) {
+      return query.get();
+    } else {
+      return query.startAfter([lastItemCreatedAt]).get();
+    }
+  }
+
+  Future<bool> toggleVideoLike(String videoId, String userId) async {
+    final query = await _db.collection("likes").doc("${videoId}000${userId}");
+    final like = await query.get();
+
+    if (!like.exists) {
+      await query.set({
+        "createdAt": DateTime.now().millisecondsSinceEpoch,
+      });
+      return false;
+    } else {
+      await query.delete();
+      return true;
+    }
+  }
+
+  Future<VideoLikeModel> isLiked(String videoId, String userId) async {
+    final likeQuery = _db.collection("likes").doc("${videoId}000${userId}");
+    final videoQuery = _db.collection("videos").doc(videoId);
+    final like = await likeQuery.get();
+    final video = await videoQuery.get();
+    final videoData = video.data();
+
+    final VideoModel videoModel = VideoModel.fromJson(json: videoData!, videoId: videoId);
+
+    return VideoLikeModel(isLikeVideo: like.exists, likeCount: videoModel.likes);
   }
 }
 

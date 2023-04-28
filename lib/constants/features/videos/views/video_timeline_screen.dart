@@ -12,7 +12,7 @@ class VideoTimelineScreen extends ConsumerStatefulWidget {
 }
 
 class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
-  int _itemCount = 4;
+  int _itemCount = 0;
 
   final PageController _pageController = PageController();
 
@@ -28,8 +28,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
     );
 
     if (page == _itemCount - 1) {
-      _itemCount = _itemCount + 4;
-      setState(() {});
+      ref.watch(timelineProvider.notifier).fetchNextPage();
     }
   }
 
@@ -44,7 +43,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
   }
 
   Future<void> _onRefresh() {
-    return Future.delayed(const Duration(seconds: 2));
+    return ref.watch(timelineProvider.notifier).refresh();
   }
 
   @override
@@ -59,7 +58,9 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
               style: TextStyle(color: Colors.white),
             ),
           ),
-          data: (videos) => RefreshIndicator(
+          data: (videos) {
+            _itemCount = videos.length;
+            return RefreshIndicator(
             displacement: 70,
             backgroundColor: Colors.black87,
             color: Theme.of(context).primaryColor,
@@ -77,7 +78,8 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
                     videoData: videoData,
                   );
                 }),
-          ),
+          );
+          },
         );
   }
 }
