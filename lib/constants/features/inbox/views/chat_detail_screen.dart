@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/features/authentication/repos/authentication_repo.dart';
+import 'package:tiktok_clone/constants/features/inbox/view_models/messages_view_model.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import '../../../common/widgets/dark_mode_configuration/dark_mode_config.dart';
+import '../../../../common/widgets/dark_mode_configuration/dark_mode_config.dart';
 
-class ChatDetailScreen extends StatefulWidget {
+class ChatDetailScreen extends ConsumerStatefulWidget {
   static const String routeName = "chatDetail";
   static const String routeURL = ":chatId";
 
@@ -14,10 +17,10 @@ class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen({Key? key, required this.chatId}) : super(key: key);
 
   @override
-  State<ChatDetailScreen> createState() => _ChatDetailScreenState();
+  ConsumerState<ChatDetailScreen> createState() => _ChatDetailScreenState();
 }
 
-class _ChatDetailScreenState extends State<ChatDetailScreen> {
+class _ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   final TextEditingController _textEditingController = TextEditingController();
   bool _isButtonEnabled = false;
 
@@ -42,6 +45,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   void _onSendMessage() {
     setState(() {
       String message = _textEditingController.text;
+      ref.read(messagesProvider.notifier).sendMessages(message);
       _textEditingController.clear();
     });
   }
@@ -49,6 +53,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = darkModConfig.value;
+    final isLoading = ref.watch(messagesProvider).isLoading;
     return Scaffold(
       backgroundColor: isDark ? null : Colors.grey.shade50,
       appBar: AppBar(
@@ -86,11 +91,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ),
           title: Text(
             '준서 ${widget.chatId}',
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
             ),
           ),
-          subtitle: Text('Active now'),
+          subtitle: const Text('Active now'),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -111,52 +116,68 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       ),
       body: Stack(
         children: [
-          ListView.separated(
-              padding: EdgeInsets.symmetric(
-                vertical: Sizes.size20,
-                horizontal: Sizes.size14,
-              ),
-              itemBuilder: (context, index) {
-                final isMine = index % 2 == 0;
-                return Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment:
-                      isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(
-                        Sizes.size14,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isMine
-                            ? Colors.blue
-                            : Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(
-                            Sizes.size20,
-                          ),
-                          topRight: Radius.circular(
-                            Sizes.size20,
-                          ),
-                          bottomLeft: Radius.circular(
-                              isMine ? Sizes.size20 : Sizes.size5),
-                          bottomRight: Radius.circular(
-                              isMine ? Sizes.size5 : Sizes.size20),
-                        ),
-                      ),
-                      child: Text(
-                        "this is a message!",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: Sizes.size16,
-                        ),
-                      ),
+          ref.watch(chatProvider).when(
+                data: (data) {
+                  return ListView.separated(
+                    reverse: true,
+                    padding: EdgeInsets.only(
+                      top: Sizes.size20,
+                      bottom: MediaQuery .of(context).padding.bottom + Sizes.size96,
+                      left: Sizes.size14,
+                      right: Sizes.size14,
                     ),
-                  ],
-                );
-              },
-              separatorBuilder: (context, index) => Gaps.v10,
-              itemCount: 10),
+                    itemBuilder: (context, index) {
+                      final message = data[index];
+                      final isMine = message.userId == ref.watch(authRepo).user!.uid;
+                      return Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: isMine
+                            ? MainAxisAlignment.end
+                            : MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(
+                              Sizes.size14,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isMine
+                                  ? Colors.blue
+                                  : Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.only(
+                                topLeft: const Radius.circular(
+                                  Sizes.size20,
+                                ),
+                                topRight: const Radius.circular(
+                                  Sizes.size20,
+                                ),
+                                bottomLeft: Radius.circular(
+                                    isMine ? Sizes.size20 : Sizes.size5),
+                                bottomRight: Radius.circular(
+                                    isMine ? Sizes.size5 : Sizes.size20),
+                              ),
+                            ),
+                            child: Text(
+                              message.text,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: Sizes.size16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                    separatorBuilder: (context, index) => Gaps.v10,
+                    itemCount: data.length,
+                  );
+                },
+                error: (error, stackTrace) => Center(
+                  child: Text(error.toString()),
+                ),
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
           Positioned(
             bottom: 0,
             width: MediaQuery.of(context).size.width,
@@ -190,7 +211,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                           children: [
                             FaIcon(
                               FontAwesomeIcons.faceGrin,
-                              color: isDark ? Colors.grey.shade300 : Colors.black,
+                              color:
+                                  isDark ? Colors.grey.shade300 : Colors.black,
                             ),
                             Gaps.h10,
                           ],
@@ -200,18 +222,26 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   ),
                   Gaps.h20,
                   GestureDetector(
-                    onTap: _isButtonEnabled ? _onSendMessage : null,
+                    onTap: isLoading
+                        ? null
+                        : _isButtonEnabled
+                            ? _onSendMessage
+                            : null,
                     child: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: _isButtonEnabled
                             ? Theme.of(context).primaryColor
-                            : isDark ? Colors.grey.shade600 : Colors.grey.shade300,
+                            : isDark
+                                ? Colors.grey.shade600
+                                : Colors.grey.shade300,
                       ),
-                      child: const FaIcon(
+                      child: FaIcon(
+                        isLoading
+                            ? FontAwesomeIcons.hourglass
+                            : FontAwesomeIcons.solidPaperPlane,
                         size: Sizes.size18,
-                        FontAwesomeIcons.solidPaperPlane,
                         color: Colors.white,
                       ),
                     ),

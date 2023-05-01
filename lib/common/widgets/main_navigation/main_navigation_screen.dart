@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/common/widgets/main_navigation/widgets/nav_tab.dart';
 import 'package:tiktok_clone/common/widgets/main_navigation/widgets/post_video_button.dart';
 import 'package:tiktok_clone/constants/features/discover/discover_screen.dart';
-import 'package:tiktok_clone/constants/features/inbox/inbox_screen.dart';
+import 'package:tiktok_clone/constants/features/inbox/views/inbox_screen.dart';
 import 'package:tiktok_clone/constants/features/users/user_progfile_screen.dart';
 import 'package:tiktok_clone/constants/features/videos/views/video_recording_screen.dart';
 import 'package:tiktok_clone/constants/features/videos/views/video_timeline_screen.dart';
@@ -93,8 +93,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       ),
       bottomNavigationBar: Container(
         color: _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
-        padding: const EdgeInsets.only(
-          bottom: Sizes.size12,
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom + Sizes.size12,
           top: Sizes.size12,
         ),
         child: Row(
