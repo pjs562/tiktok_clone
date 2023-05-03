@@ -29,7 +29,7 @@ class UserProfileModel {
         name = json['name'],
         bio = json['bio'],
         link = json['link'],
-        hasAvatar = json['hasAvatar'];
+        hasAvatar = json['hasAvatar'] ?? false;
 
   Map<String, String> toJson() {
     return {
